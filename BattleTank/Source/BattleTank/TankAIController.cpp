@@ -8,13 +8,13 @@ void ATankAIController::BeginPlay() {
 
 	AThank* ThisTank = GetControlledTank();
 	if (ThisTank) {
-		UE_LOG(LogTemp, Warning, TEXT("TankAIontroller is controlling: %s"), *ThisTank->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("TankAIontroller is controlling: %s"), *ThisTank->GetName());
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("TankAIController is nullptr"));
 	}
 	if (GetPlayerTank()) {
-		UE_LOG(LogTemp, Warning, TEXT("%s is targeting: %s"), *ThisTank->GetName(), *PlayerTank->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("%s is targeting: %s"), *ThisTank->GetName(), *PlayerTank->GetName());
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("TankAIController failed to identify Player"));
