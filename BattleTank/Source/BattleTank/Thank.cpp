@@ -7,6 +7,7 @@ AThank::AThank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	AimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component"));
 
 }
 
@@ -32,6 +33,10 @@ void AThank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 void AThank::AimAt(FVector HitLocation) {
-	FString ThisTankName = GetName();
-	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at: %s"), *ThisTankName,*HitLocation.ToString());
+	AimingComponent->AimAt(HitLocation, LaunchSpeed);
+}
+
+void AThank::SetBarrelReference(UTankBarrel * BarrelToSet)
+{
+	AimingComponent->SetBarrel(BarrelToSet);
 }
