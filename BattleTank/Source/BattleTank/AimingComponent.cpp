@@ -2,6 +2,7 @@
 
 #include "AimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret_.h"
 
 // Sets default values for this component's properties
 UAimingComponent::UAimingComponent()
@@ -36,6 +37,10 @@ void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 void UAimingComponent::SetBarrel(UTankBarrel * BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+void UAimingComponent::SetTurret(UTankTurret_* TurretToSet)
+{
+	Turret = TurretToSet;
 }
 
 
@@ -89,6 +94,6 @@ void UAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DifRotation = AimAsRotation - BarrelRotation;
 
 	// Elevate Barrel
-	Barrel->Elevate(5);
-
+	Barrel->Elevate(DifRotation.Pitch);
+	Turret->Rotate(DifRotation.Yaw);
 }
