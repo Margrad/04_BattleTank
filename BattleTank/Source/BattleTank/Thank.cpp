@@ -36,6 +36,11 @@ void AThank::SetBarrelReference(UTankBarrel * BarrelToSet)
 	AimingComponent->SetBarrel(BarrelToSet);
 }
 
+void AThank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fireing!"));
+}
+
 void AThank::SetTurretReference(UTankTurret_ * Turret)
 {
 	AimingComponent->SetTurret(Turret);

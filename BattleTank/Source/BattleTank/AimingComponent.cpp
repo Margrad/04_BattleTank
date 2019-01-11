@@ -73,14 +73,14 @@ void UAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (TrajectoryFound)
 	{
 		 auto AimDirection = OUTSugestedVelocity.GetSafeNormal();
-		 auto Time = GetWorld()->GetTimeSeconds();
-		 UE_LOG(LogTemp, Warning, TEXT("%f aiming at %s"), Time, *OUTSugestedVelocity.ToString());
+		 //auto Time = GetWorld()->GetTimeSeconds();
+		 //UE_LOG(LogTemp, Warning, TEXT("%f aiming at %s"), Time, *OUTSugestedVelocity.ToString());
 		 MoveBarrelTowards(AimDirection);
 	}
 	else
 	{
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Error, TEXT("%f no target found"), Time);
+		//auto Time = GetWorld()->GetTimeSeconds();
+		//UE_LOG(LogTemp, Error, TEXT("%f no target found"), Time);
 	}
 }
 
