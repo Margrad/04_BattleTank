@@ -6,19 +6,23 @@
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 
-	AThank* ThisTank = GetControlledTank();
+	ThisTank = GetControlledTank();
 	if (ThisTank) {
-		//UE_LOG(LogTemp, Warning, TEXT("TankAIontroller is controlling: %s"), *ThisTank->GetName());
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("TankAIController is nullptr"));
 	}
 	if (GetPlayerTank()) {
-		//UE_LOG(LogTemp, Warning, TEXT("%s is targeting: %s"), *ThisTank->GetName(), *PlayerTank->GetName());
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("TankAIController failed to identify Player"));
 	}
+}
+
+void ATankAIController::Tick(float DeltaTime) {
+	Super::Tick(DeltaTime);
+	auto AimingAt = Player->GetPawn()->GetActorLocation();
+	ThisTank->AimAt(AimingAt);
 }
 
 AThank* ATankAIController::GetControlledTank()
@@ -28,7 +32,7 @@ AThank* ATankAIController::GetControlledTank()
 
 bool ATankAIController::GetPlayerTank()
 {
-	APlayerController* Player = GetWorld()->GetFirstPlayerController();
+	Player = GetWorld()->GetFirstPlayerController();
 	PlayerTank = Cast<AThank>(Player->GetPawn());
 	if (PlayerTank) {
 		return true;
