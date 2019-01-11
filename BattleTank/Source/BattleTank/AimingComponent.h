@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "TankBarrel.h"
 #include "AimingComponent.generated.h"
 
 class UTankBarrel;

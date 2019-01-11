@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "AimingComponent.h"
+#include "TankBarrel.h"
 
 // Sets default values for this component's properties
 UAimingComponent::UAimingComponent()
@@ -40,35 +41,41 @@ void UAimingComponent::SetBarrel(UTankBarrel * BarrelToSet)
 
 void UAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { return; }
+	if (!Barrel) {
+		UE_LOG(LogTemp, Warning, TEXT("AimComponent->AimAt() Barrel not found."));
+		return;
+	}
 
 	auto BarrelLocation = Barrel->GetSocketLocation(FName("FiringMouth"));//GetComponentLocation();
 	FVector OUTSugestedVelocity;
-	//FCollisionResponseParams CollisionResponseParems = FCollisionResponseParams();
-	//TArray<AActor*> IgnoredActores;
-	//IgnoredActores.Add(GetOwner());
-
-	if (UGameplayStatics::SuggestProjectileVelocity(
-			this,
-			OUT OUTSugestedVelocity,
-			BarrelLocation,
-			HitLocation,
-			LaunchSpeed,
-			false,
-			0,
-			0,
-			ESuggestProjVelocityTraceOption::DoNotTrace
-			//CollisionResponseParems,
-			//IgnoredActores,
-			//true
-		))
+	FCollisionResponseParams CollisionResponseParems = FCollisionResponseParams();
+	TArray<AActor*> IgnoredActores;
+	IgnoredActores.Add(GetOwner());
+	bool TrajectoryFound = UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		OUT OUTSugestedVelocity,
+		BarrelLocation,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		CollisionResponseParems,
+		IgnoredActores,
+		false
+	);
+	if (TrajectoryFound)
 	{
 		 auto AimDirection = OUTSugestedVelocity.GetSafeNormal();
-		// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"),*GetOwner()->GetName(), *AimDirection);
+		 auto Time = GetWorld()->GetTimeSeconds();
+		 UE_LOG(LogTemp, Warning, TEXT("%f aiming at %s"), Time, *OUTSugestedVelocity.ToString());
 		 MoveBarrelTowards(AimDirection);
 	}
 	else
 	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Error, TEXT("%f no target found"), Time);
 	}
 }
 
