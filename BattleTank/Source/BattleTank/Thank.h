@@ -10,7 +10,7 @@
 #include "Thank.generated.h"
 
 class UTankBarrel;
-
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API AThank : public APawn
@@ -35,6 +35,9 @@ public:
 
 	UPROPERTY(EditAnywhere, category = Firing)
 	float LaunchSpeed = 4000;
+
+	UPROPERTY(EditAnywhere, category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 protected:
 	// Called when the game starts or when spawned

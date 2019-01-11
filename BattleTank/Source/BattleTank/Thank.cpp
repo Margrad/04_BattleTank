@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Thank.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
 
 // Sets default values
 AThank::AThank()
@@ -39,6 +41,11 @@ void AThank::SetBarrelReference(UTankBarrel * BarrelToSet)
 void AThank::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fireing!"));
+	FTransform Transform = AimingComponent->GetBarrel()->GetSocketTransform("FiringMouth");//GetSocketLocation("FiringMouth");
+	FVector Loc = Transform.GetLocation();
+	FRotator Rot = Transform.Rotator();
+	UE_LOG(LogTemp, Warning, TEXT("Barrel firing loc: %s\t rot:%s"), *Loc.ToString(),*Rot.ToString());
+	GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,Transform);
 }
 
 void AThank::SetTurretReference(UTankTurret_ * Turret)
