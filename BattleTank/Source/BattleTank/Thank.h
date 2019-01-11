@@ -31,7 +31,7 @@ public:
 	void SetTurretReference(UTankTurret_* Turret);
 
 	UPROPERTY(EditAnywhere, category = Firing)
-	float LaunchSpeed = 10000;
+	float LaunchSpeed = 4000;
 
 protected:
 	// Called when the game starts or when spawned
