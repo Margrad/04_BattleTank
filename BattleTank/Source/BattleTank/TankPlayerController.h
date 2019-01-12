@@ -27,9 +27,9 @@ private:
 	// 
 	virtual bool GetSightRayHitLocation(FVector&) const;
 
-	UPROPERTY(EditAnywhere) 
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairXLocation = 0.5; // Variables to store the Screen X location of the Crosshair ratio
-	UPROPERTY(EditAnywhere) 
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairYLocation = 0.3333; // Variables to store the Screen Y location of the Crosshair ratio
 
 	// Get the Camera direction in regards to the World and stores it in WorldDirection

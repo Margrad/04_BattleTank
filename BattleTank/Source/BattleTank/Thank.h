@@ -11,6 +11,8 @@
 
 class UTankBarrel;
 class AProjectile;
+class UTankMovementComponent;
+
 
 UCLASS()
 class BATTLETANK_API AThank : public APawn
@@ -33,11 +35,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret_* Turret);
 
-	UPROPERTY(EditAnywhere, category = Firing)
+	UPROPERTY(EditDefaultsOnly, category = Firing)
 	float LaunchSpeed = 10000;
 
-	UPROPERTY(EditAnywhere, category = Setup)
+	UPROPERTY(EditDefaultsOnly, category = Firing)
+	double ReloadTimeSeconds = 4;
+
+	UPROPERTY(EditDefaultsOnly, category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -49,7 +56,8 @@ protected:
 	// Aiming Component 
 	UAimingComponent* AimingComponent = nullptr;
 
+	UPROPERTY(BlueprintReadOnly, category = Setup)
+	UTankMovementComponent* MovementComponent = nullptr;
 private:
 	double LastFireTime = FPlatformTime::Seconds();
-	double ReloadTimeSeconds = 4;
 };

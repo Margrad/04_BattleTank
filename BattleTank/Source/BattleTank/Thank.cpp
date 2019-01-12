@@ -3,6 +3,7 @@
 #include "Thank.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
+#include "TankMovementComponent.h"
 
 // Sets default values
 AThank::AThank()
@@ -10,7 +11,7 @@ AThank::AThank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	AimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component"));
-
+	MovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned
@@ -48,6 +49,7 @@ void AThank::Fire()
 		//UE_LOG(LogTemp, Warning, TEXT("Barrel firing loc: %s\t rot:%s"), *Loc.ToString(),*Rot.ToString());
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Transform);
 		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
 	}
 }
 
