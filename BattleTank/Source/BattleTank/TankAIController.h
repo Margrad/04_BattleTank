@@ -24,13 +24,10 @@ protected:
 	virtual void Tick(float) override;
 public:
 	// Return a pointer to the controlled Tank
-	AThank* GetControlledTank();
 
 private:
 	AThank* ThisTank=nullptr;
 
 	// Sets the PlayerTank(Enemy in this case)
-	bool GetPlayerTank();
 	AThank* PlayerTank = nullptr;
-	APlayerController* Player = nullptr;
 };

@@ -5,40 +5,23 @@
 
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
-
-	ThisTank = GetControlledTank();
-	if (ThisTank) {
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("TankAIController is nullptr"));
-	}
-	if (GetPlayerTank()) {
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("TankAIController failed to identify Player"));
-	}
 }
 
 void ATankAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-	auto AimingAt = Player->GetPawn()->GetActorLocation();
-	ThisTank->AimAt(AimingAt);
-}
+	
+	ThisTank = Cast<AThank>(GetPawn());
+	PlayerTank = Cast<AThank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto AimingAt = PlayerTank->GetActorLocation();
+	if (PlayerTank)
+	{
+		// TODO move towards the player
 
-AThank* ATankAIController::GetControlledTank()
-{
-	return Cast<AThank>(GetPawn());
-}
+		// Aim towards the plaayer
+		ThisTank->AimAt(AimingAt);
 
-bool ATankAIController::GetPlayerTank()
-{
-	Player = GetWorld()->GetFirstPlayerController();
-	PlayerTank = Cast<AThank>(Player->GetPawn());
-	if (PlayerTank) {
-		return true;
-	}
-	else {
-		return false;
+		// Fire the gun
+		ThisTank->Fire(); //
 	}
 }
 

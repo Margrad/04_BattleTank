@@ -34,7 +34,7 @@ public:
 	void SetTurretReference(UTankTurret_* Turret);
 
 	UPROPERTY(EditAnywhere, category = Firing)
-	float LaunchSpeed = 4000;
+	float LaunchSpeed = 10000;
 
 	UPROPERTY(EditAnywhere, category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
@@ -48,4 +48,8 @@ protected:
 
 	// Aiming Component 
 	UAimingComponent* AimingComponent = nullptr;
+
+private:
+	double LastFireTime = FPlatformTime::Seconds();
+	double ReloadTimeSeconds = 4;
 };

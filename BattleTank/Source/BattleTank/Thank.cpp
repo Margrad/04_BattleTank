@@ -40,12 +40,15 @@ void AThank::SetBarrelReference(UTankBarrel * BarrelToSet)
 
 void AThank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Fireing!"));
-	FTransform Transform = AimingComponent->GetBarrel()->GetSocketTransform("FiringMouth");//GetSocketLocation("FiringMouth");
-	FVector Loc = Transform.GetLocation();
-	FRotator Rot = Transform.Rotator();
-	UE_LOG(LogTemp, Warning, TEXT("Barrel firing loc: %s\t rot:%s"), *Loc.ToString(),*Rot.ToString());
-	GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,Transform);
+	bool isReloaded = (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds);
+	auto Barrel = AimingComponent->GetBarrel();
+	//UE_LOG(LogTemp, Warning, TEXT("Fireing!"));
+	if (Barrel && isReloaded) {
+		FTransform Transform = Barrel->GetSocketTransform("FiringMouth");//GetSocketLocation("FiringMouth");
+		//UE_LOG(LogTemp, Warning, TEXT("Barrel firing loc: %s\t rot:%s"), *Loc.ToString(),*Rot.ToString());
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Transform);
+		Projectile->LaunchProjectile(LaunchSpeed);
+	}
 }
 
 void AThank::SetTurretReference(UTankTurret_ * Turret)
