@@ -31,7 +31,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 {
 	auto name = GetOwner()->GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s velosity: %s"), *name, *MoveVelocity.ToString());
-	UE_LOG(LogTemp, Error, TEXT("Confused I am!"));
+
 }
 
 
