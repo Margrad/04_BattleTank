@@ -87,7 +87,6 @@ void UAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UAimingComponent::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Fiering"));
 	bool isReloaded = (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds);
 	if (Barrel && isReloaded) {
 		FTransform Transform = Barrel->GetSocketTransform("FiringMouth");

@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 //#include "Engine.h"
-#include "Thank.h"
+//#include "Thank.h"
 #include "TankPlayerController.generated.h"
 
 
-class Thank;
-
+class AThank;
+class UAimingComponent;
 /**
- * 
+ * Classe to deal with player controller
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -21,6 +21,12 @@ protected:
 	// Return a pointer to the controlled Tank
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	AThank* GetControlledTank();
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void FindAimComponent(UAimingComponent* AimComponent);
+
+	UPROPERTY(EditAnywhere)
+	AThank* ThisTank; // Variables to store the Screen X location of the Crosshair ratio
 
 	virtual void BeginPlay() override; // Default Unreal Function
 	virtual void Tick(float) override; // Default Unreal Function

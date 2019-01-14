@@ -4,6 +4,8 @@
 #include "TankPlayerController.h"
 #include "Public/CollisionQueryParams.h"
 #include "GameFramework/PlayerController.h"
+#include "Thank.h"
+#include "AimingComponent.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -11,8 +13,12 @@ void ATankPlayerController::BeginPlay()
 
 	AThank* ThisTank = GetControlledTank();
 	// Protection for ThisTank pointer
-	if (!ThisTank){
-		UE_LOG(LogTemp, Error, TEXT("TankPlayerController is nullptr"));
+	auto AimingComponent = GetControlledTank()->AimingComponent;
+	if(AimingComponent){
+		FindAimComponent(AimingComponent);
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("CANNOT FIND AIMING COMPONENT"));
 	}
 }
 

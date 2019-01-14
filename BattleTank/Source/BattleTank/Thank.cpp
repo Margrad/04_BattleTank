@@ -17,7 +17,6 @@ void AThank::BeginPlay()
 {
 	Super::BeginPlay();
 	AimingComponent = FindComponentByClass<UAimingComponent>();
-	
 }
 
 

@@ -58,7 +58,7 @@ private:
 	double ReloadTimeSeconds = 4;
 
 	UPROPERTY(EditAnywhere, category = Firing)
-		float LaunchSpeed = 10000;
+		float LaunchSpeed = 2000;
 
 	UPROPERTY(EditAnywhere, category = Setup)
 	//UClass*	ProjectileBlueprint=nullptr;

@@ -28,6 +28,10 @@ void UTankMovementComponent::IntendTurnRight(float Trow)
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
+	if (IsFunctionWorking) {
+		UE_LOG(LogTemp, Warning, TEXT("RequestDirectMove() was called."));
+		IsFunctionWorking = false;
+	}
 	auto NormalMoveIntention = MoveVelocity.GetSafeNormal();
 	FVector TankFoward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	

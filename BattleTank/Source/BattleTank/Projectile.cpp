@@ -34,7 +34,7 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::LaunchProjectile(float speed) 
 {
 	if (!ProjectileMovement) {
-		UE_LOG(LogTemp, Error, TEXT("Failed to create a projectile"));
+		UE_LOG(LogTemp, Error, TEXT("Failed to create a projectile movement"));
 		return;
 	}
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector*speed);
