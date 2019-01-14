@@ -21,7 +21,7 @@ void ATankAIController::Tick(float DeltaTime) {
 		ThisTank->AimAt(AimingAt);
 
 		// Fire the gun
-		ThisTank->Fire(); //
+		// ThisTank->Fire(); //
 	}
 }
 
