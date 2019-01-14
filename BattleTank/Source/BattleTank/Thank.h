@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "BattleTank.h"
-#include "AimingComponent.h"
 #include "GameFramework/Pawn.h"
-
+#include "AimingComponent.h"
 #include "Thank.generated.h"
+
+class UAimingComponent;
 
 
 UCLASS()

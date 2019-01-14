@@ -32,6 +32,4 @@ private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
 
-	//
-	bool IsFunctionWorking=true;
 };

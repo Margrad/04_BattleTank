@@ -22,8 +22,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	AThank* GetControlledTank();
 
+	// This is a even function, please ignore Visua Studios lack of implementation issue 
 	UFUNCTION(BlueprintImplementableEvent)
-		void FindAimComponent(UAimingComponent* AimComponent);
+	void FindAimComponent(UAimingComponent* AimComponent);
 
 	UPROPERTY(EditAnywhere)
 	AThank* ThisTank; // Variables to store the Screen X location of the Crosshair ratio

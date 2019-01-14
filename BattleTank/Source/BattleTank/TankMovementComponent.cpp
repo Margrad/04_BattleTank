@@ -12,7 +12,7 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftToSet, UTankTrack* Right
 
 void UTankMovementComponent::IntendMoveForward(float Trow)
 {
-	if (!LeftTrack || !RightTrack) return;
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Trow);
 	RightTrack->SetThrottle(Trow);
 	// TODO block the player form using direct trottle + foward/back input to double their max throttle
@@ -20,7 +20,7 @@ void UTankMovementComponent::IntendMoveForward(float Trow)
 
 void UTankMovementComponent::IntendTurnRight(float Trow)
 {
-	if (!LeftTrack|| !RightTrack) return;
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Trow);
 	RightTrack->SetThrottle(-Trow);
 	// TODO block the player form using direct trottle + foward/back input to double their max throttle
@@ -28,10 +28,6 @@ void UTankMovementComponent::IntendTurnRight(float Trow)
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
-	if (IsFunctionWorking) {
-		UE_LOG(LogTemp, Warning, TEXT("RequestDirectMove() was called."));
-		IsFunctionWorking = false;
-	}
 	auto NormalMoveIntention = MoveVelocity.GetSafeNormal();
 	FVector TankFoward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	

@@ -2,6 +2,7 @@
 
 
 #include "TankAIController.h"
+#include "Thank.h"
 
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
@@ -13,7 +14,7 @@ void ATankAIController::Tick(float DeltaTime) {
 	ThisTank = Cast<AThank>(GetPawn());
 	PlayerTank = Cast<AThank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	auto AimingAt = PlayerTank->GetActorLocation();
-	if (PlayerTank)
+	if (ensure(PlayerTank))
 	{
 		// Move towards the player
 		MoveToActor(PlayerTank, AcceptanceRadius);

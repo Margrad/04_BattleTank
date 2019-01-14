@@ -40,7 +40,7 @@ void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UAimingComponent::AimAt(FVector HitLocation)
 {
-	if (!Barrel) {
+	if (!ensure(Barrel)) {
 		UE_LOG(LogTemp, Warning, TEXT("AimComponent->AimAt() Barrel not found."));
 		return;
 	}
@@ -64,7 +64,7 @@ void UAimingComponent::AimAt(FVector HitLocation)
 		IgnoredActores,
 		false
 	);
-	if (TrajectoryFound)
+	if (ensure(TrajectoryFound))
 	{
 		 auto AimDirection = OUTSugestedVelocity.GetSafeNormal();
 		 MoveBarrelTowards(AimDirection);
@@ -91,7 +91,7 @@ void UAimingComponent::Fire()
 	if (Barrel && isReloaded) {
 		FTransform Transform = Barrel->GetSocketTransform("FiringMouth");
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Transform);
-		if (!Projectile) {
+		if (!ensure(Projectile)) {
 			UE_LOG(LogTemp, Error, TEXT("Projectile failed to spawn"));
 			return;
 		}

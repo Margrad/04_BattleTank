@@ -14,7 +14,7 @@ void ATankPlayerController::BeginPlay()
 	AThank* ThisTank = GetControlledTank();
 	// Protection for ThisTank pointer
 	auto AimingComponent = GetControlledTank()->AimingComponent;
-	if(AimingComponent){
+	if(ensure(AimingComponent)){
 		FindAimComponent(AimingComponent);
 	}
 	else {
@@ -33,13 +33,14 @@ AThank* ATankPlayerController::GetControlledTank()
 }
 
 void ATankPlayerController::AimToCrosshair() {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 	FVector HitLocation; // Out parameter with the location aimed by the Crosshair
 	if (GetSightRayHitLocation(HitLocation)) {
 		GetControlledTank()->FindComponentByClass<UAimingComponent>()->AimAt(HitLocation);
 	}
 	else {
 		// Keep HitLocation without crazy values
+		// TODO change this vector to folor the camera direction
 		HitLocation = FVector(0.0);
 	}
 
