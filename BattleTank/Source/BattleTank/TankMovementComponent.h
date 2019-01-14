@@ -20,7 +20,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Movement)
 	void IntendMoveForward(float Trow);
 	UFUNCTION(BlueprintCallable, Category = Movement)
-	void IntendMoveRight(float Trow);
+	void IntendTurnRight(float Trow);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialise(UTankTrack* Left, UTankTrack* Right);
 

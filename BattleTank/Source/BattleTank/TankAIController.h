@@ -28,6 +28,8 @@ public:
 private:
 	AThank* ThisTank=nullptr;
 
+	float AcceptanceRadius = 500;
+
 	// Sets the PlayerTank(Enemy in this case)
 	AThank* PlayerTank = nullptr;
 };
