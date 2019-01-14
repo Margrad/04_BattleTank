@@ -29,12 +29,14 @@ void UTankMovementComponent::IntendTurnRight(float Trow)
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
-	// auto name = GetOwner()->GetName();
 	auto NormalMoveIntention = MoveVelocity.GetSafeNormal();
-	//UE_LOG(LogTemp, Warning, TEXT("%s velosity: %s"), *name, *NormalMoveVelocity.ToString());
 	FVector TankFoward = GetOwner()->GetActorForwardVector().GetSafeNormal();
-	auto dotProduct = FVector::DotProduct(NormalMoveIntention, TankFoward);
-	IntendMoveForward(dotProduct);
+	
+	auto FowardThrottle = FVector::DotProduct(NormalMoveIntention, TankFoward);
+	IntendMoveForward(FowardThrottle);
+
+	auto RightThrottle = FVector::CrossProduct(TankFoward, NormalMoveIntention).Z;
+	IntendTurnRight(RightThrottle);	
 }
 
 
