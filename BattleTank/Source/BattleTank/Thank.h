@@ -9,8 +9,6 @@
 
 #include "Thank.generated.h"
 
-class UTankBarrel;
-class AProjectile;
 
 UCLASS()
 class BATTLETANK_API AThank : public APawn
@@ -21,24 +19,6 @@ public:
 	// Sets default values for this pawn's properties
 	AThank();
 
-	//
-	void AimAt(FVector HitLocation);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void Fire();
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret_* Turret);
-
-	UPROPERTY(EditAnywhere, category = Firing)
-	float LaunchSpeed = 10000;
-
-	UPROPERTY(EditAnywhere, category = Setup)
-	TSubclassOf<AProjectile> ProjectileBlueprint;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -46,10 +26,7 @@ protected:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// Aiming Component 
+	// 
+	UPROPERTY(BlueprintReadOnly)
 	UAimingComponent* AimingComponent = nullptr;
-
-private:
-	double LastFireTime = FPlatformTime::Seconds();
-	double ReloadTimeSeconds = 4;
 };

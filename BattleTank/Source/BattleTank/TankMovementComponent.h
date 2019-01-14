@@ -21,12 +21,14 @@ public:
 	void IntendMoveForward(float Trow);
 	UFUNCTION(BlueprintCallable, Category = Movement)
 	void IntendTurnRight(float Trow);
+	//Initialise track in blueprint
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialise(UTankTrack* Left, UTankTrack* Right);
 
+private:
+	// Used by the AI to determine movement direction
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
-private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
 };

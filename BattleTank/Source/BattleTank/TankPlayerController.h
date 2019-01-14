@@ -18,6 +18,10 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 protected:
+	// Return a pointer to the controlled Tank
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	AThank* GetControlledTank();
+
 	virtual void BeginPlay() override; // Default Unreal Function
 	virtual void Tick(float) override; // Default Unreal Function
 
@@ -36,8 +40,6 @@ private:
 	bool GetLookDirection(FVector2D ScreenCoordinats, FVector& WorldDirection) const;
 	// The Rangge of the Ray Trace used in finding what the crosshiar is aiming at
 	float LineTraceRange = 1000000;
-	// Return a pointer to the controlled Tank
-	AThank* GetControlledTank();
 	// Stores the Coordenates of the HitLocation aimed on the CrossHair
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 };

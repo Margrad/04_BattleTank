@@ -3,6 +3,7 @@
 #include "AimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret_.h"
+#include "Projectile.h"
 
 // Sets default values for this component's properties
 UAimingComponent::UAimingComponent()
@@ -25,26 +26,19 @@ void UAimingComponent::BeginPlay()
 }
 
 
+void UAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret_ * TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
+
 // Called every frame
 void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// UE_LOG(LogTemp, Warning, TEXT("%s aiming at: %s"), *ThisTankName, *HitLocation.ToString());
-	// ...
 }
 
-void UAimingComponent::SetBarrel(UTankBarrel * BarrelToSet)
-{
-	Barrel = BarrelToSet;
-}
-void UAimingComponent::SetTurret(UTankTurret_* TurretToSet)
-{
-	Turret = TurretToSet;
-}
-
-
-void UAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!Barrel) {
 		UE_LOG(LogTemp, Warning, TEXT("AimComponent->AimAt() Barrel not found."));
@@ -73,14 +67,7 @@ void UAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (TrajectoryFound)
 	{
 		 auto AimDirection = OUTSugestedVelocity.GetSafeNormal();
-		 //auto Time = GetWorld()->GetTimeSeconds();
-		 //UE_LOG(LogTemp, Warning, TEXT("%f aiming at %s"), Time, *OUTSugestedVelocity.ToString());
 		 MoveBarrelTowards(AimDirection);
-	}
-	else
-	{
-		//auto Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Error, TEXT("%f no target found"), Time);
 	}
 }
 
@@ -96,4 +83,20 @@ void UAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	// Elevate Barrel
 	Barrel->Elevate(DifRotation.Pitch);
 	Turret->Rotate(DifRotation.Yaw);
+}
+
+void UAimingComponent::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fiering"));
+	bool isReloaded = (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds);
+	if (Barrel && isReloaded) {
+		FTransform Transform = Barrel->GetSocketTransform("FiringMouth");
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Transform);
+		if (!Projectile) {
+			UE_LOG(LogTemp, Error, TEXT("Projectile failed to spawn"));
+			return;
+		}
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }

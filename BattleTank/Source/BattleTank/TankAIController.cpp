@@ -19,7 +19,7 @@ void ATankAIController::Tick(float DeltaTime) {
 		MoveToActor(PlayerTank, AcceptanceRadius);
 
 		// Aim towards the plaayer
-		ThisTank->AimAt(AimingAt);
+		ThisTank->FindComponentByClass<UAimingComponent>()->AimAt(AimingAt);
 
 		// Fire the gun
 		// ThisTank->Fire(); //
