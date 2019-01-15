@@ -30,7 +30,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UPROPERTY(BlueprintReadOnly, Category = State)
-	EFireStage FireState = EFireStage::MovingBarrel;
+	EFireStage FireState = EFireStage::NeedReload;
 
 	// Initialise the Barrel and turret in blueprint
 	UFUNCTION(BlueprintCallable, Category = Setup)
@@ -40,9 +40,6 @@ public:
 	// Sets default values for this component's properties
 	UAimingComponent();
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	void AimAt(FVector HitLocation);
 	
 	// Function to fire the cannon
@@ -51,17 +48,23 @@ public:
 private:
 	void MoveBarrelTowards(FVector AimDirection);
 
+
+	FVector LastBarrelRotation=FVector(1.0);
+	bool IsBarrelMoving(float tolerance);
+
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret_* Turret = nullptr;
 
 	double LastFireTime = FPlatformTime::Seconds();
-	double ReloadTimeSeconds = 4;
+	double ReloadTimeSeconds = 3;
 
 	UPROPERTY(EditAnywhere, category = Firing)
-		float LaunchSpeed = 2000;
+		float LaunchSpeed = 5000;
 
 	UPROPERTY(EditAnywhere, category = Setup)
 	//UClass*	ProjectileBlueprint=nullptr;
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction);
 };

@@ -39,7 +39,7 @@ private:
 	// Get the Camera direction in regards to the World and stores it in WorldDirection
 	bool GetLookDirection(FVector2D ScreenCoordinats, FVector& WorldDirection) const;
 	// The Rangge of the Ray Trace used in finding what the crosshiar is aiming at
-	float LineTraceRange = 1000000;
+	float LineTraceRange = 100000;
 	// Stores the Coordenates of the HitLocation aimed on the CrossHair
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 };

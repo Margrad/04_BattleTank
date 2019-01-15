@@ -19,6 +19,7 @@ class BATTLETANK_API AThank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	AThank();
+	//virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction);
 	// 
 	// UPROPERTY(BlueprintReadOnly)
 	// UAimingComponent* AimingComponent = nullptr;

@@ -10,7 +10,7 @@ UAimingComponent::UAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
@@ -22,7 +22,8 @@ void UAimingComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	LastFireTime = FPlatformTime::Seconds();
+	//LastBarrelRotation = Barrel->GetForwardVector();
 }
 
 
@@ -33,9 +34,22 @@ void UAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret_ * Turr
 }
 
 // Called every frame
-void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
+void UAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	//UE_LOG(LogTemp, Warning, TEXT("Ticking"));
+	if (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds) {
+		FireState = EFireStage::Ready;
+		//UE_LOG(LogTemp, Warning, TEXT("Ready"));
+		if (IsBarrelMoving(0.1)) {
+			FireState = EFireStage::MovingBarrel;
+			//UE_LOG(LogTemp, Warning, TEXT("MovingBarrel"));
+		}
+	}
+	else{
+		FireState = EFireStage::NeedReload;
+		//UE_LOG(LogTemp, Warning, TEXT("NeedReload"));
+	}
+
 }
 
 void UAimingComponent::AimAt(FVector HitLocation)
@@ -64,10 +78,18 @@ void UAimingComponent::AimAt(FVector HitLocation)
 		IgnoredActores,
 		false
 	);
-	if (ensure(TrajectoryFound))
+	if (TrajectoryFound)
 	{
 		 auto AimDirection = OUTSugestedVelocity.GetSafeNormal();
 		 MoveBarrelTowards(AimDirection);
+	}
+	else { // TODO Fix this so it follows the camera
+		FVector Temp;
+		FRotator PlayerRotation;
+		GetOwner()->GetActorEyesViewPoint(Temp, PlayerRotation);
+		auto AimDirection = PlayerRotation.Vector();
+		UE_LOG(LogTemp, Warning, TEXT("Aiming with camera: %s"),*AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
 	}
 }
 
@@ -85,6 +107,19 @@ void UAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Turret->Rotate(DifRotation.Yaw);
 }
 
+bool UAimingComponent::IsBarrelMoving(float tolerance)
+{
+if (!ensure(Barrel)) { return 0; }
+	tolerance = FMath::Clamp<float>(tolerance, 0, 1);
+	auto NewBarrelRotation = Barrel->GetForwardVector();
+	if (NewBarrelRotation.Equals(LastBarrelRotation, tolerance)) {
+		LastBarrelRotation = NewBarrelRotation;
+		return false;
+	}
+	LastBarrelRotation = NewBarrelRotation;
+	return true;
+}
+
 void UAimingComponent::Fire()
 {
 	bool isReloaded = (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds);
@@ -99,3 +134,4 @@ void UAimingComponent::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
+

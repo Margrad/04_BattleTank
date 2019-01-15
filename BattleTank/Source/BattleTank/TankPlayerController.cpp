@@ -25,10 +25,14 @@ void ATankPlayerController::Tick(float DeltaTime) {
 }
 
 void ATankPlayerController::AimToCrosshair() {
+	if (!GetPawn()) {
+		return;
+	}
+	AimingComponent = GetPawn()->FindComponentByClass<UAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation; // Out parameter with the location aimed by the Crosshair
 	if (GetSightRayHitLocation(HitLocation)) {
-		GetPawn()->FindComponentByClass<UAimingComponent>()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 	else {
 		// Keep HitLocation without crazy values
