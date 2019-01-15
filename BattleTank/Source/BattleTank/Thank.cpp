@@ -16,7 +16,7 @@ AThank::AThank()
 void AThank::BeginPlay()
 {
 	Super::BeginPlay();
-	AimingComponent = FindComponentByClass<UAimingComponent>();
+	//AimingComponent = FindComponentByClass<UAimingComponent>();
 }
 
 

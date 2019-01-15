@@ -3,12 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "Engine.h"
-//#include "Thank.h"
 #include "TankPlayerController.generated.h"
 
 
-class AThank;
+//class AThank;
 class UAimingComponent;
 /**
  * Classe to deal with player controller
@@ -18,16 +16,11 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 protected:
-	// Return a pointer to the controlled Tank
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	AThank* GetControlledTank();
-
 	// This is a even function, please ignore Visua Studios lack of implementation issue 
 	UFUNCTION(BlueprintImplementableEvent)
 	void FindAimComponent(UAimingComponent* AimComponent);
 
-	UPROPERTY(EditAnywhere)
-	AThank* ThisTank; // Variables to store the Screen X location of the Crosshair ratio
+	UAimingComponent* AimingComponent = nullptr;
 
 	virtual void BeginPlay() override; // Default Unreal Function
 	virtual void Tick(float) override; // Default Unreal Function

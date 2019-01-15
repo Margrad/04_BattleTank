@@ -4,20 +4,17 @@
 #include "TankPlayerController.h"
 #include "Public/CollisionQueryParams.h"
 #include "GameFramework/PlayerController.h"
-#include "Thank.h"
 #include "AimingComponent.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AThank* ThisTank = GetControlledTank();
 	// Protection for ThisTank pointer
-	auto AimingComponent = GetControlledTank()->AimingComponent;
-	if(ensure(AimingComponent)){
-		FindAimComponent(AimingComponent);
-	}
-	else {
+	AimingComponent = GetPawn()->FindComponentByClass<UAimingComponent>();
+	FindAimComponent(AimingComponent);
+	
+	if(!ensure(AimingComponent)) {
 		UE_LOG(LogTemp, Error, TEXT("CANNOT FIND AIMING COMPONENT"));
 	}
 }
@@ -27,16 +24,11 @@ void ATankPlayerController::Tick(float DeltaTime) {
 	AimToCrosshair(); // Aims the barrel in the direction of the crosshair
 }
 
-AThank* ATankPlayerController::GetControlledTank()
-{
-	return Cast<AThank>(GetPawn());
-}
-
 void ATankPlayerController::AimToCrosshair() {
-	if (!ensure(GetControlledTank())) { return; }
+	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation; // Out parameter with the location aimed by the Crosshair
 	if (GetSightRayHitLocation(HitLocation)) {
-		GetControlledTank()->FindComponentByClass<UAimingComponent>()->AimAt(HitLocation);
+		GetPawn()->FindComponentByClass<UAimingComponent>()->AimAt(HitLocation);
 	}
 	else {
 		// Keep HitLocation without crazy values

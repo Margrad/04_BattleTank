@@ -5,10 +5,9 @@
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "GameFramework/Controller.h"
-//#include "Engine.h"
 #include "TankAIController.generated.h"
 
-class AThank;
+class UAimingComponent;
 
 /**
  * 
@@ -27,10 +26,13 @@ public:
 	// Return a pointer to the controlled Tank
 
 private:
-	AThank* ThisTank=nullptr;
+	APawn* ThisTank=nullptr;
 
 	float AcceptanceRadius = 500;
 
+	// Aiming component
+	UAimingComponent* AimingComponent;
+
 	// Sets the PlayerTank(Enemy in this case)
-	AThank* PlayerTank = nullptr;
+	APawn* PlayerTank = nullptr;
 };

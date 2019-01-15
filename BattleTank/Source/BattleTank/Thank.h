@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "BattleTank.h"
 #include "GameFramework/Pawn.h"
-#include "AimingComponent.h"
+//#include "AimingComponent.h"
 #include "Thank.generated.h"
 
-class UAimingComponent;
+//class UAimingComponent;
 
 
 UCLASS()
@@ -20,8 +20,8 @@ public:
 	// Sets default values for this pawn's properties
 	AThank();
 	// 
-	UPROPERTY(BlueprintReadOnly)
-	UAimingComponent* AimingComponent = nullptr;
+	// UPROPERTY(BlueprintReadOnly)
+	// UAimingComponent* AimingComponent = nullptr;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
