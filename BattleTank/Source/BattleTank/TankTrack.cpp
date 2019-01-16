@@ -3,7 +3,7 @@
 #include "TankTrack.h"
 
 UTankTrack::UTankTrack() {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UTankTrack::BeginPlay()
@@ -14,29 +14,33 @@ void UTankTrack::BeginPlay()
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Track is hitting the ground"));
+	//UE_LOG(LogTemp, Warning, TEXT("Track is hitting the ground"));
+
+	Driveshafe();
+	ApplySidewaysForce();
+	CurrentThrottle = 0;
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	Throttle = FMath::Clamp<float>(Throttle, -1, 1);
-	auto ForceApplied = GetForwardVector()*Throttle*MaxThrottle;
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle+Throttle, -1, 1);
+}
+
+void UTankTrack::Driveshafe()
+{
+	auto ForceApplied = GetForwardVector()*CurrentThrottle*MaxThrottle;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
 
-// Called every frame
-void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	//UE_LOG(LogTemp, Warning, TEXT("Tank Track Ticking"));
-	// Calculate the splittage speed
-	auto Speed = FVector::DotProduct(GetRightVector(),GetComponentVelocity());
+void UTankTrack::ApplySidewaysForce()
+{
+	auto Speed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 	// Calculate required acceleration
 
-	auto YAccel = - Speed / DeltaTime * GetRightVector();
+	auto YAccel = -Speed / GetWorld()->GetDeltaSeconds()* GetRightVector();
 	// Calculate required force and apply it
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 	auto YForce = YAccel * TankRoot->GetMass() / 2;

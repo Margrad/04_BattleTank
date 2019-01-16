@@ -104,6 +104,9 @@ void UAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 	// Elevate Barrel
 	Barrel->Elevate(DifRotation.Pitch);
+	if (DifRotation.Yaw < 0) {
+		DifRotation.Yaw *=-1;
+	}
 	Turret->Rotate(DifRotation.Yaw);
 }
 

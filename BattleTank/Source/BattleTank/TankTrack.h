@@ -20,12 +20,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetThrottle(float ThrottleToSet);
 
+	void Driveshafe();
+
 	float MaxThrottle = 39800000;
 
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	void ApplySidewaysForce();
 	virtual void BeginPlay() override;
 
 private:
+	float CurrentThrottle = 0;
+
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };
