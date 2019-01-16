@@ -4,7 +4,7 @@
 #include "TankBarrel.h"
 #include "TankTurret_.h"
 #include "Projectile.h"
-
+#include "Components/SceneComponent.h"
 // Sets default values for this component's properties
 UAimingComponent::UAimingComponent()
 {
@@ -86,8 +86,8 @@ void UAimingComponent::AimAt(FVector HitLocation)
 	else { // TODO Fix this so it follows the camera
 		FVector Temp;
 		FRotator PlayerRotation;
-		GetOwner()->GetActorEyesViewPoint(Temp, PlayerRotation);
-		auto AimDirection = PlayerRotation.Vector();
+		//GetOwner()->GetActorEyesViewPoint(Temp, PlayerRotation);
+		auto AimDirection = GetOwner()->FindComponentByClass<USceneComponent>()->GetComponentTransform().GetRotation().Vector();// PlayerRotation.Vector();
 		UE_LOG(LogTemp, Warning, TEXT("Aiming with camera: %s"),*AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
 	}

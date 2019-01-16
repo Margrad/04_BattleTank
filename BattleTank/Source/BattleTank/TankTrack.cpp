@@ -21,4 +21,14 @@ void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActor
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	//UE_LOG(LogTemp, Warning, TEXT("Tank Track Ticking"));
+	// Calculate the splittage speed
+	auto Speed = FVector::DotProduct(GetRightVector(),GetComponentVelocity());
+	// Calculate required acceleration
+
+	auto YAccel = - Speed / DeltaTime * GetRightVector();
+	// Calculate required force and apply it
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+	auto YForce = YAccel * TankRoot->GetMass() / 2;
+
+	TankRoot->AddForce(YForce);
 }
