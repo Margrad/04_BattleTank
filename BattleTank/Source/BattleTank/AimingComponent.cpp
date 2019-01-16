@@ -88,7 +88,7 @@ void UAimingComponent::AimAt(FVector HitLocation)
 		FRotator PlayerRotation;
 		//GetOwner()->GetActorEyesViewPoint(Temp, PlayerRotation);
 		auto AimDirection = GetOwner()->FindComponentByClass<USceneComponent>()->GetComponentTransform().GetRotation().Vector();// PlayerRotation.Vector();
-		UE_LOG(LogTemp, Warning, TEXT("Aiming with camera: %s"),*AimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Aiming with camera: %s"),*AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
 	}
 }
