@@ -13,7 +13,8 @@ UENUM()
 enum class EFireStage : uint8 {
 	NeedReload,
 	MovingBarrel,
-	Ready
+	Ready,
+	OutOfAmmo
 };
 
 // Forward Declarations
@@ -32,6 +33,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = State)
 	EFireStage FireState = EFireStage::NeedReload;
 
+
 	// Initialise the Barrel and turret in blueprint
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialise(UTankBarrel* Barrel, UTankTurret_* Turret);
@@ -41,11 +43,18 @@ public:
 	UAimingComponent();
 
 	void AimAt(FVector HitLocation);
-	
+	EFireStage GetFireStage();
+
 	// Function to fire the cannon
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Fire();
+
+	UPROPERTY(BlueprintReadOnly, Category = GamePlay)
+	int Ammo = 3;
+
+
 private:
+
 	void MoveBarrelTowards(FVector AimDirection);
 
 
@@ -59,7 +68,7 @@ private:
 	double ReloadTimeSeconds = 3;
 
 	UPROPERTY(EditAnywhere, category = Firing)
-		float LaunchSpeed = 5000;
+		float LaunchSpeed = 8000;
 
 	UPROPERTY(EditAnywhere, category = Setup)
 	//UClass*	ProjectileBlueprint=nullptr;

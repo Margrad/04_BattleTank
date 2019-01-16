@@ -28,7 +28,7 @@ public:
 private:
 	APawn* ThisTank=nullptr;
 
-	float AcceptanceRadius = 500;
+	float AcceptanceRadius = 5000;
 
 	// Aiming component
 	UAimingComponent* AimingComponent;

@@ -32,7 +32,6 @@ void ATankPlayerController::AimToCrosshair() {
 	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation; // Out parameter with the location aimed by the Crosshair
 	bool bGetSightRayHitLocation = GetSightRayHitLocation(HitLocation);
-	UE_LOG(LogTemp,Warning,TEXT("bool is %d"), bGetSightRayHitLocation)
 	if (bGetSightRayHitLocation) {
 		AimingComponent->AimAt(HitLocation);
 	}

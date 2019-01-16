@@ -22,7 +22,7 @@ void UAimingComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	LastFireTime = FPlatformTime::Seconds();
+	LastFireTime = GetWorld()->GetTimeSeconds();
 	//LastBarrelRotation = Barrel->GetForwardVector();
 }
 
@@ -40,7 +40,7 @@ void UAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, 
 	if (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds) {
 		FireState = EFireStage::Ready;
 		//UE_LOG(LogTemp, Warning, TEXT("Ready"));
-		if (IsBarrelMoving(0.1)) {
+		if (IsBarrelMoving(0.0001)) {
 			FireState = EFireStage::MovingBarrel;
 			//UE_LOG(LogTemp, Warning, TEXT("MovingBarrel"));
 		}
@@ -93,6 +93,11 @@ void UAimingComponent::AimAt(FVector HitLocation)
 	}
 }
 
+EFireStage UAimingComponent::GetFireStage()
+{
+	return FireState;
+}
+
 void UAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// Get current position and rotation,
@@ -104,10 +109,10 @@ void UAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 	// Elevate Barrel
 	Barrel->Elevate(DifRotation.Pitch);
-	if (DifRotation.Yaw < 0) {
+	if (FMath::Abs(DifRotation.Yaw) < 180) {
 		DifRotation.Yaw *=-1;
 	}
-	Turret->Rotate(DifRotation.Yaw);
+	Turret->Rotate(-DifRotation.Yaw);
 }
 
 bool UAimingComponent::IsBarrelMoving(float tolerance)
@@ -125,16 +130,19 @@ if (!ensure(Barrel)) { return 0; }
 
 void UAimingComponent::Fire()
 {
-	bool isReloaded = (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds);
-	if (Barrel && isReloaded) {
-		FTransform Transform = Barrel->GetSocketTransform("FiringMouth");
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Transform);
-		if (!ensure(Projectile)) {
-			UE_LOG(LogTemp, Error, TEXT("Projectile failed to spawn"));
-			return;
+	if (Ammo>0) {
+		bool isReloaded = (GetWorld()->GetTimeSeconds() > LastFireTime + ReloadTimeSeconds);
+		if (Barrel && isReloaded) {
+			FTransform Transform = Barrel->GetSocketTransform("FiringMouth");
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Transform);
+			if (!ensure(Projectile)) {
+				UE_LOG(LogTemp, Error, TEXT("Projectile failed to spawn"));
+				return;
+			}
+			Projectile->LaunchProjectile(LaunchSpeed);
+			LastFireTime = GetWorld()->GetTimeSeconds();
+			Ammo--;
 		}
-		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
 	}
 }
 
