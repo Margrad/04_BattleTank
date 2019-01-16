@@ -8,7 +8,7 @@ void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 }
 
-void ATankAIController::Tick(float DeltaTime) {
+void ATankAIController::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
 	
 	ThisTank = GetPawn();

@@ -49,30 +49,33 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Fire();
 
-	UPROPERTY(BlueprintReadOnly, Category = GamePlay)
-	int Ammo = 3;
 
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+		double ReloadTimeSeconds = 3;
+
+	UPROPERTY(EditAnywhere, category = Firing)
+		float LaunchSpeed = 8000;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+		int32 Ammo = 3;
+
+
+	UPROPERTY(EditAnywhere, category = Setup)
+		//UClass*	ProjectileBlueprint=nullptr;
+		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 private:
 
 	void MoveBarrelTowards(FVector AimDirection);
 
 
-	FVector LastBarrelRotation=FVector(1.0);
+	FVector LastBarrelRotation=FVector(1.0); 
 	bool IsBarrelMoving(float tolerance);
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret_* Turret = nullptr;
 
 	double LastFireTime = FPlatformTime::Seconds();
-	double ReloadTimeSeconds = 3;
-
-	UPROPERTY(EditAnywhere, category = Firing)
-		float LaunchSpeed = 8000;
-
-	UPROPERTY(EditAnywhere, category = Setup)
-	//UClass*	ProjectileBlueprint=nullptr;
-	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction);

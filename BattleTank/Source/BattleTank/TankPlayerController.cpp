@@ -39,7 +39,7 @@ void ATankPlayerController::AimToCrosshair() {
 		// Keep HitLocation without crazy values
 		// TODO change this vector to folor the camera direction
 		HitLocation = FVector(0.0);
-	}
+	} 
 
 }
 
