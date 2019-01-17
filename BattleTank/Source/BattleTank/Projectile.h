@@ -8,6 +8,7 @@
 
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class URadialForceComponent;
 
 
 UCLASS()
@@ -34,10 +35,14 @@ private:
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Components)
-	UParticleSystemComponent* LaunchBlast = nullptr; 
+	UParticleSystemComponent* LaunchBlast = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = Components)
 	UParticleSystemComponent* ImpactBlast = nullptr;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = Components)
+	URadialForceComponent* ExplosionImpulse = nullptr;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
