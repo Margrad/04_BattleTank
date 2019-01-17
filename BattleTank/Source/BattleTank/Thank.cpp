@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Thank.h"
+#include "MotionAbsorver.h"
 //#include "TankBarrel.h"
 //#include "Projectile.h"
 
@@ -10,6 +11,7 @@ AThank::AThank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	//AimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component"));
+
 }
 
 float AThank::GetHealthRatio()

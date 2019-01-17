@@ -9,6 +9,7 @@
 #include "Public/TimerManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/DamageType.h"
+
 // Sets default values
 AProjectile::AProjectile()
 {

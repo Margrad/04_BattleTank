@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
-//#include "Projectile.h"
 #include "AimingComponent.generated.h"
 
 UENUM()
@@ -30,9 +29,10 @@ class BATTLETANK_API UAimingComponent : public UActorComponent
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	// Keeps track of the Ability to fire (NeedReload, moving, ready or outOfAmmo)
 	UPROPERTY(BlueprintReadOnly, Category = State)
 	EFireStage FireState = EFireStage::NeedReload;
-
 
 	// Initialise the Barrel and turret in blueprint
 	UFUNCTION(BlueprintCallable, Category = Setup)
@@ -49,7 +49,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Fire();
 
-
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		double ReloadTimeSeconds = 3;
 
@@ -61,25 +60,18 @@ public:
 
 
 	UPROPERTY(EditAnywhere, category = Setup)
-		//UClass*	ProjectileBlueprint=nullptr;
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UFUNCTION(BlueprintPure)
 		int32 GetAmmo() { return Ammo; };
 
 private:
-
-	void MoveBarrelTowards(FVector AimDirection);
-
-
-	FVector LastBarrelRotation=FVector(1.0); 
-	bool IsBarrelMoving(float tolerance);
-
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret_* Turret = nullptr;
+	double LastFireTime;
 
-	double LastFireTime = FPlatformTime::Seconds();
-
-
+	void MoveBarrelTowards(FVector AimDirection);
+	FVector LastBarrelRotation = FVector(1.0);
+	bool IsBarrelMoving(float tolerance);
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction);
 };

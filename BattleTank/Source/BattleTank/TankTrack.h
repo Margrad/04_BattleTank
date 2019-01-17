@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
+
 /**
  * Used to set forces applied to the tank movement
  */
@@ -22,13 +23,15 @@ public:
 
 	void Driveshafe();
 
-	float MaxThrottle = 39800000;
+	float MaxThrottle = 50000000;
 
 	void ApplySidewaysForce();
 	virtual void BeginPlay() override;
 
 private:
 	float CurrentThrottle = 0;
+
+	float MaxSpeed = 1600;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);

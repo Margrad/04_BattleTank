@@ -5,27 +5,18 @@
 #include "TankTurret_.h"
 #include "Projectile.h"
 #include "Components/SceneComponent.h"
-// Sets default values for this component's properties
+
 UAimingComponent::UAimingComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
-
-// Called when the game starts
 void UAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
 	LastFireTime = GetWorld()->GetTimeSeconds();
-	//LastBarrelRotation = Barrel->GetForwardVector();
 }
-
 
 void UAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret_ * TurretToSet)
 {
@@ -33,23 +24,22 @@ void UAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret_ * Turr
 	Turret = TurretToSet;
 }
 
-// Called every frame
 void UAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	//UE_LOG(LogTemp, Warning, TEXT("Ticking"));
-	if (FPlatformTime::Seconds() > LastFireTime + ReloadTimeSeconds) {
+
+	if (Ammo == 0) {
+		FireState = EFireStage::OutOfAmmo;
+		return;
+	}
+	if (GetWorld()->GetTimeSeconds() > LastFireTime + ReloadTimeSeconds) {
 		FireState = EFireStage::Ready;
-		//UE_LOG(LogTemp, Warning, TEXT("Ready"));
-		if (IsBarrelMoving(0.0001)) {
+		if (IsBarrelMoving(0.0005)) {
 			FireState = EFireStage::MovingBarrel;
-			//UE_LOG(LogTemp, Warning, TEXT("MovingBarrel"));
 		}
 	}
 	else{
 		FireState = EFireStage::NeedReload;
-		//UE_LOG(LogTemp, Warning, TEXT("NeedReload"));
 	}
-
 }
 
 void UAimingComponent::AimAt(FVector HitLocation)

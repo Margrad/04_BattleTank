@@ -5,10 +5,9 @@
 #include "CoreMinimal.h"
 #include "BattleTank.h"
 #include "GameFramework/Pawn.h"
-//#include "AimingComponent.h"
 #include "Thank.generated.h"
 
-//class UAimingComponent;
+class AMotionAbsorver;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 

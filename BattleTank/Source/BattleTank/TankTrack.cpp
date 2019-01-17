@@ -28,10 +28,18 @@ void UTankTrack::SetThrottle(float Throttle)
 
 void UTankTrack::Driveshafe()
 {
-	auto ForceApplied = GetForwardVector()*CurrentThrottle*MaxThrottle;
+	auto ForceApplied = (GetForwardVector())*CurrentThrottle*MaxThrottle;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 
+	// Get  Speed from component
+	auto Speed = GetComponentVelocity().Size();
+	// See the ratio with max speed
+	auto ratio = 1-FMath::Clamp<float>(Speed/MaxSpeed,0,1);
+	// multiply the ratio to decresse the current tank acceleration
+	ForceApplied *= ratio;
+
+	//UE_LOG(LogTemp, Warning, TEXT("Tank Speed = %f; Ratio = %f"), Speed, ratio);
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
 
@@ -43,7 +51,7 @@ void UTankTrack::ApplySidewaysForce()
 	auto YAccel = -Speed / GetWorld()->GetDeltaSeconds()* GetRightVector();
 	// Calculate required force and apply it
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	auto YForce = YAccel * TankRoot->GetMass() / 2;
+	auto YForce = YAccel * TankRoot->GetMass() / 2*0.9;
 
 	TankRoot->AddForce(YForce);
 }
