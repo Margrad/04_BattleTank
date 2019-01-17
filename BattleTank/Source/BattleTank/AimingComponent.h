@@ -57,7 +57,7 @@ public:
 		float LaunchSpeed = 8000;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-		int32 Ammo = 3;
+		int32 Ammo = 20;
 
 
 	UPROPERTY(EditAnywhere, category = Setup)

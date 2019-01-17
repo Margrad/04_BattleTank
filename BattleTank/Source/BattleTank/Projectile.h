@@ -44,7 +44,11 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Components)
 	URadialForceComponent* ExplosionImpulse = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = SelfDestory)
+	float DestroyDelay = 1;
+
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
+	void ProjectDestroy();
 };
