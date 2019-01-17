@@ -5,7 +5,8 @@
 #include "Public/CollisionQueryParams.h"
 #include "GameFramework/PlayerController.h"
 #include "AimingComponent.h"
-
+#include "Thank.h"
+ 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,6 +24,24 @@ void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	AimToCrosshair(); // Aims the barrel in the direction of the crosshair
 }
+
+void ATankPlayerController::OnPossTankDeath()
+{
+	StartSpectatingOnly();
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<AThank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		//Subscribe our local metho to the thank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossTankDeath);
+	}
+} 
 
 void ATankPlayerController::AimToCrosshair() {
 	if (!GetPawn()) {
@@ -77,7 +96,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection,FVect
 		OUT HitObject,
 		OUT StartingPosition,
 		OUT EndPosition,
-		ECollisionChannel::ECC_Visibility // Uses the visibility channel(not using glass I suposse)
+		ECollisionChannel::ECC_Camera // Uses the visibility channel(not using glass I suposse)
 	))
 	{
 		HitLocation=HitObject.Location;

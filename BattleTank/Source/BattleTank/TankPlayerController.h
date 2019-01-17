@@ -25,6 +25,10 @@ protected:
 	virtual void BeginPlay() override; // Default Unreal Function
 	virtual void Tick(float) override; // Default Unreal Function
 
+	UFUNCTION()
+	void OnPossTankDeath();
+
+	virtual void SetPawn(APawn *InPawn) override;
 private:
 	// Move the barrel in the direction of the Crosshair
 	virtual void AimToCrosshair();

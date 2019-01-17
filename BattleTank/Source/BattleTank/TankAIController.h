@@ -22,8 +22,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float) override;
+
+	virtual void SetPawn(APawn *InPawn) override;
+
 public:
 	// Return a pointer to the controlled Tank
+	UFUNCTION()
+	void OnPossTankDeath(); 
 
 private:
 	APawn* ThisTank=nullptr;

@@ -41,7 +41,7 @@ float AThank::TakeDamage(float Damage, FDamageEvent const & DamageEvent, AContro
 	UE_LOG(LogTemp, Warning, TEXT("Damage Taken %f: %f/%f"), Damage,TankCurrentHealth,TankMaxHealth);
 	if (TankCurrentHealth <= 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank is dead!"));
+		OnDeath.Broadcast();
 	}
 
 	return Damage;

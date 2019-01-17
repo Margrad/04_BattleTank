@@ -10,8 +10,9 @@
 
 //class UAimingComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
-UCLASS()
+UCLASS()   
 class BATTLETANK_API AThank : public APawn
 {
 	GENERATED_BODY()
@@ -25,6 +26,8 @@ public:
 	// UAimingComponent* AimingComponent = nullptr;
 	UFUNCTION(BlueprintPure,Category = Health)
 	float GetHealthRatio();
+
+	FTankDelegate OnDeath;
 
 protected:
 	// Called when the game starts or when spawned

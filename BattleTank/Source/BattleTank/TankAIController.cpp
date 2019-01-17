@@ -3,6 +3,7 @@
 
 #include "TankAIController.h"
 #include "AimingComponent.h"
+#include "Thank.h"
 
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
@@ -13,6 +14,7 @@ void ATankAIController::Tick(float DeltaTime){
 	
 	ThisTank = GetPawn();
 	PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!PlayerTank) { return; }
 	auto AimingAt = PlayerTank->GetActorLocation();
 	auto AimingComp = ThisTank->FindComponentByClass<UAimingComponent>();
 	if (ensure(PlayerTank))
@@ -28,5 +30,25 @@ void ATankAIController::Tick(float DeltaTime){
 			AimingComp->Fire(); 
 		}
 	}
+}
+
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<AThank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		//Subscribe our local metho to the thank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossTankDeath);
+	}
+}
+
+void ATankAIController::OnPossTankDeath()
+{
+	if (!GetPawn()) { return; }
+	GetPawn()->DetachFromControllerPendingDestroy();
+
 }
 
