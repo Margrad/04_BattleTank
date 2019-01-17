@@ -12,6 +12,11 @@ AThank::AThank()
 	//AimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component"));
 }
 
+float AThank::GetHealthRatio()
+{
+	return TankCurrentHealth/TankMaxHealth;
+}
+
 // Called when the game starts or when spawned
 void AThank::BeginPlay()
 {
@@ -26,4 +31,18 @@ void AThank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+float AThank::TakeDamage(float Damage, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	Damage = FMath::Clamp<float>(Damage, 0, TankCurrentHealth);
+	TankCurrentHealth -= Damage;
+	
+	UE_LOG(LogTemp, Warning, TEXT("Damage Taken %f: %f/%f"), Damage,TankCurrentHealth,TankMaxHealth);
+	if (TankCurrentHealth <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Tank is dead!"));
+	}
+
+	return Damage;
 }

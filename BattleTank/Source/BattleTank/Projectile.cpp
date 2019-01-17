@@ -6,8 +6,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/EngineTypes.h"
 #include "PhysicsEngine/RadialForceComponent.h"
-#include"Public/TimerManager.h"
-
+#include "Public/TimerManager.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
 // Sets default values
 AProjectile::AProjectile()
 {
@@ -58,6 +59,16 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	ExplosionImpulse->FireImpulse();
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
+
+	UGameplayStatics::ApplyRadialDamage(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		ExplosionImpulse->Radius,// keep the damage radios with the explosionimpulse radius
+		UDamageType::StaticClass(),
+		TArray<AActor*>() // damage all Actores
+		);
+
 
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::ProjectDestroy, DestroyDelay, false);

@@ -64,6 +64,9 @@ public:
 		//UClass*	ProjectileBlueprint=nullptr;
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
+	UFUNCTION(BlueprintPure)
+		int32 GetAmmo() { return Ammo; };
+
 private:
 
 	void MoveBarrelTowards(FVector AimDirection);
