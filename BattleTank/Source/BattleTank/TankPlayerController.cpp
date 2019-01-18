@@ -12,10 +12,12 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	// Protection for ThisTank pointer
+	if (!GetPawn()) { return; }
+
 	AimingComponent = GetPawn()->FindComponentByClass<UAimingComponent>();
 	FindAimComponent(AimingComponent);
 	
-	if(!ensure(AimingComponent)) {
+	if(!(AimingComponent)) {
 		UE_LOG(LogTemp, Error, TEXT("CANNOT FIND AIMING COMPONENT"));
 	}
 }
@@ -36,7 +38,7 @@ void ATankPlayerController::SetPawn(APawn * InPawn)
 	if (InPawn)
 	{
 		auto PossessedTank = Cast<AThank>(InPawn);
-		if (!ensure(PossessedTank)) { return; }
+		if (!(PossessedTank)) { return; }
 
 		//Subscribe our local metho to the thank's death event
 		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossTankDeath);
@@ -48,7 +50,7 @@ void ATankPlayerController::AimToCrosshair() {
 		return;
 	}
 	AimingComponent = GetPawn()->FindComponentByClass<UAimingComponent>();
-	if (!ensure(AimingComponent)) { return; }
+	if (!(AimingComponent)) { return; }
 	FVector HitLocation; // Out parameter with the location aimed by the Crosshair
 	bool bGetSightRayHitLocation = GetSightRayHitLocation(HitLocation);
 	if (bGetSightRayHitLocation) {

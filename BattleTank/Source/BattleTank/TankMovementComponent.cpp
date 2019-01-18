@@ -12,7 +12,7 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftToSet, UTankTrack* Right
 
 void UTankMovementComponent::IntendMoveForward(float Trow)
 {
-	if (!ensure(LeftTrack && RightTrack)) { return; }
+	if (!(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Trow);
 	RightTrack->SetThrottle(Trow);
 	// TODO block the player form using direct trottle + foward/back input to double their max throttle
@@ -20,7 +20,7 @@ void UTankMovementComponent::IntendMoveForward(float Trow)
 
 void UTankMovementComponent::IntendTurnRight(float Trow)
 {
-	if (!ensure(LeftTrack && RightTrack)) { return; }
+	if (!(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Trow);
 	RightTrack->SetThrottle(-Trow);
 	// TODO block the player form using direct trottle + foward/back input to double their max throttle

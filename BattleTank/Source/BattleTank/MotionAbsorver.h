@@ -7,6 +7,7 @@
 #include "MotionAbsorver.generated.h"
 
 class UStaticMeshComponent;
+class USphereComponent;
 class UPhysicsConstraintComponent;
 
 UCLASS()
@@ -20,16 +21,33 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void AddDrivingForce(float ForceMagnitude);
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void SetupConstraint();
+
+	void ApplyForce();
+
 private:
 
+	float TotalForceMagnitudeThisFrame = 0;
+
+
 	UPROPERTY(VisibleAnywhere, Category = Components)
-		UStaticMeshComponent* Wheel = nullptr;
+		USphereComponent* Wheel = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = Components)
-		UPhysicsConstraintComponent* PhysicsConstraint = nullptr;
+		UPhysicsConstraintComponent* PhysicsConstraint = nullptr; 
+	UPROPERTY(VisibleAnywhere, Category = Components)
+		USphereComponent* Axel = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = Components)
+		UPhysicsConstraintComponent* AxelConstrain = nullptr; 
 
 
 };

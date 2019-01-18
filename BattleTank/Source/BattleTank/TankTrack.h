@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
+class AMotionAbsorver;
 
 /**
  * Used to set forces applied to the tank movement
@@ -18,21 +19,20 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 public:
 	UTankTrack();
 
+	TArray<AMotionAbsorver*> GetWheels() const;
+
 	UFUNCTION(BlueprintCallable)
 	void SetThrottle(float ThrottleToSet);
 
-	void Driveshafe();
+	void Driveshafe(float CurrentThrottle);
 
 	float MaxThrottle = 50000000;
 
-	void ApplySidewaysForce();
 	virtual void BeginPlay() override;
 
 private:
-	float CurrentThrottle = 0;
+
 
 	float MaxSpeed = 1600;
 
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };
