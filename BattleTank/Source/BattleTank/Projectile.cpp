@@ -1,14 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Projectile.h"
-#include "GameFramework/ProjectileMovementComponent.h"
-#include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "Engine/EngineTypes.h"
+#include "GameFramework/DamageType.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Public/TimerManager.h"
-#include "Kismet/GameplayStatics.h"
-#include "GameFramework/DamageType.h"
 
 // Sets default values
 AProjectile::AProjectile()

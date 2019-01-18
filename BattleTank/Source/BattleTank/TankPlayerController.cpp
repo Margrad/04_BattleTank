@@ -56,12 +56,6 @@ void ATankPlayerController::AimToCrosshair() {
 	if (bGetSightRayHitLocation) {
 		AimingComponent->AimAt(HitLocation);
 	}
-	else {
-		// Keep HitLocation without crazy values
-		// TODO change this vector to folor the camera direction
-		HitLocation = FVector(0.0);
-	} 
-
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
@@ -104,5 +98,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection,FVect
 		HitLocation=HitObject.Location;
 			return true;
 	}
-	return false;
+	HitLocation = StartingPosition + LookDirection * 1000;
+	return true;
 }

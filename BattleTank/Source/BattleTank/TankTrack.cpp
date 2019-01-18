@@ -12,7 +12,6 @@ UTankTrack::UTankTrack() {
 void UTankTrack::BeginPlay()
 {
 	Super::BeginPlay();
-	//OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }
 
 TArray<AMotionAbsorver*> UTankTrack::GetWheels() const

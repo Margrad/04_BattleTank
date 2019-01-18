@@ -6,9 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "MotionAbsorver.generated.h"
 
-class UStaticMeshComponent;
 class USphereComponent;
 class UPhysicsConstraintComponent;
+
+/*
+* This Is a poorly named class, to late to change in unreal, but it should be named "SprungWheel"
+* 
+*/
 
 UCLASS()
 class BATTLETANK_API AMotionAbsorver : public AActor
@@ -23,9 +27,9 @@ public:
 
 	void AddDrivingForce(float ForceMagnitude);
 
+	// Function to make sure the wheels pulling are touching something
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
-
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,21 +37,19 @@ protected:
 
 	void SetupConstraint();
 
+	// Apply the force to the wheels
 	void ApplyForce();
 
 private:
 
 	float TotalForceMagnitudeThisFrame = 0;
-
-
+	
 	UPROPERTY(VisibleAnywhere, Category = Components)
-		USphereComponent* Wheel = nullptr;
+	USphereComponent* Wheel = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = Components)
-		UPhysicsConstraintComponent* PhysicsConstraint = nullptr; 
+	UPhysicsConstraintComponent* PhysicsConstraint = nullptr; 
 	UPROPERTY(VisibleAnywhere, Category = Components)
-		USphereComponent* Axel = nullptr;
+	USphereComponent* Axel = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = Components)
-		UPhysicsConstraintComponent* AxelConstrain = nullptr; 
-
-
+	UPhysicsConstraintComponent* AxelConstrain = nullptr; 
 };

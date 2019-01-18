@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MotionAbsorver.h"
-#include "Components/StaticMeshComponent.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include"Components/SphereComponent.h"
-// Sets default values
+
+
 AMotionAbsorver::AMotionAbsorver()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -56,18 +56,10 @@ void AMotionAbsorver::ApplyForce()
 void AMotionAbsorver::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("Tick1 = %f"), TotalForceMagnitudeThisFrame);
-	//TotalForceMagnitudeThisFrame = 0;
-	UE_LOG(LogTemp, Warning, TEXT("Tick2 = %f"), TotalForceMagnitudeThisFrame);
+
 	if (GetWorld()->TickGroup == TG_PostPhysics) {
-		UE_LOG(LogTemp, Warning, TEXT("Tick3 = %f"), TotalForceMagnitudeThisFrame);
 		TotalForceMagnitudeThisFrame = 0;
 	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Tick4 = %f"), TotalForceMagnitudeThisFrame);
-	}
-
-	UE_LOG(LogTemp, Warning, TEXT("Tick5 = %f"), TotalForceMagnitudeThisFrame);
 }
 
 void AMotionAbsorver::AddDrivingForce(float ForceMagnitude)

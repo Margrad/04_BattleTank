@@ -10,7 +10,7 @@ class UProjectileMovementComponent;
 class UParticleSystemComponent;
 class URadialForceComponent;
 
-
+// The class that defines the game projectile
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
 {
@@ -26,7 +26,6 @@ protected:
 
 public:	
 	// Called every frame
-	// virtual void Tick(float DeltaTime) override;
 	void LaunchProjectile(float speed);
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
@@ -53,5 +52,7 @@ private:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
+
+	// Cleans the projectile from the game
 	void ProjectDestroy();
 };
